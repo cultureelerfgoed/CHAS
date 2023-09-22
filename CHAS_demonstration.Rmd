@@ -357,7 +357,9 @@ That's quite a nice score: about 68 per cent of terms can be matched directly ag
 
 ### Contested Terms [#](#top)
 
-Now that the replication seems to work (do try this out for the other queries as well!), a final evaluation exercise is to map descriptions of objects against a knowledge graph of contested terms. Using expert-advice a group of researchers published a list of terms that could be considered as contested in descriptions of objects. In the context of decolonizing collections, it would be nice to get a quick overview of potentially contested terms in a collection, without having to go through all the descriptions manually. That is what our final query aims to do. It retrieves the descriptions from a collection, tries to match these against the contentious terms knowledge graph and returns the potential contested terms for each item, or as a table overview. 
+Now that the replication seems to work (do try this out for the other queries as well!), a final evaluation exercise is to map descriptions of objects against a knowledge graph of contested terms. Using expert-advice a group of researchers published a list of terms that could be considered as contested in descriptions of objects. See their paper here:[https://ir.cwi.nl/pub/33129/](https://ir.cwi.nl/pub/33129/). A copy of this graph can be queried at the linked data environment of the Dutch Cultural Heritage Agency:[https://linkeddata.cultureelerfgoed.nl/rce/Words-Matter-Knowledge-Graph](https://linkeddata.cultureelerfgoed.nl/rce/Words-Matter-Knowledge-Graph). 
+
+In the context of decolonizing collections, it would be useful to get a quick overview of potentially contested terms in a collection, without having to go through all the descriptions manually. That is what our final query aims to do. It retrieves the descriptions from a collection, tries to match these against the Words Matter knowledge graph and returns the potential contested terms for each item, or as a table overview. 
 
 ```{r message=FALSE, warning=FALSE, echo=TRUE}
 

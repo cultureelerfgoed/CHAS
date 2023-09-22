@@ -9,8 +9,9 @@ If you want to use the pipeline for your own collection, these are the required 
   4. Upload this to a triplestore, such as the free version of [GraphDB](https://graphdb.ontotext.com/)
   5. Start a SPARQL endpoint on the collections dataset in your triplestore
   6. Install [R and R Studio](https://rstudio-education.github.io/hopr/starting.html). 
-  7. Open the [CHAS_report file]() in R Studio
+  7. Download and open the [CHAS_report file](https://github.com/cultureelerfgoed/CHAS/blob/main/CHAS_report.Rmd) in R Studio
   8. In the code chuncks (that start with `{r message=FALSE, warning=FALSE, echo=TRUE}`, replace the bit after `url` with the URL link to your own SPARQL endpoint (don't forget to use quotation marks). Now you can execute all the SPARQL queries, and see the results for your own collection.
+  9. If you want to save the output, select "Knit" in the top of your R Studio environment, and it will generate a PDF.
 
 Questions? E-mail [RCE Thesauri](mailto:thesauri@cultureelerfgoed.nl)
      

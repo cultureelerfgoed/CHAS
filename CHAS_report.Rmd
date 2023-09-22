@@ -1,14 +1,26 @@
 ---
 title: "CHAS_report"
-author: "Ruben Schalk"
-date: "22-9-2023"
-output: pdf_document
+author: "Provided by the Dutch Cultural Heritage Agency (test version)"
+output:
+  pdf_document
 ---
 
-```{r message=TRUE, warning=TRUE, echo=TRUE}
+**Date created**: `r format(Sys.time())`
+
+# Cultural Heritage ASessor: Collection Report
+
+This is a template to connect a linked data version of a collection to different thesauri and term lists. The examples here can be replaced with other queries, as long as the thesaurus or list provides a SPARQL endpoint.
+
+Information on how to use this template can be found in the README of the [CHAS repository](https://github.com/cultureelerfgoed/thesauri/tree/main/chas).
+
+# Load the required R packages
+
+```{r message=FALSE, warning=TRUE, echo=TRUE, results='asis'}
 
 # Check if packages are installed on machine 
-packages_to_install <- c("jsonlite", "rjson", "data.table", "httr", "curl", "stringi")
+
+packages_to_install <- c("jsonlite", "rjson", "data.table", "httr", "curl", 
+                         "stringi", "rmarkdown")
 
 is_package_installed <- function(package_name) {
   return(package_name %in% row.names(installed.packages()))
@@ -29,8 +41,10 @@ library(data.table)
 library(httr)
 library(curl)
 library(stringi)
+library(rmarkdown)
 
 ```
+
 # Overview of terms in collection
 
 ```{r message=FALSE, warning=TRUE, echo=TRUE}
@@ -165,7 +179,7 @@ print(df)
 
 ```{r message=FALSE, warning=FALSE, echo=TRUE}
 
-### import descriptions as text from collection ###
+### Import description-field as text from collection dataset
 
 url <- "https://api.linkeddata.cultureelerfgoed.nl/datasets/ruben-schalk/rce-art-sample/services/rce-art-sample/sparql"
 query <- "PREFIX dct: <http://purl.org/dc/terms/>
@@ -187,7 +201,7 @@ response <- POST(url, body = list(query = query))
 content <- content(response, "parsed")
 colonial <- as.data.frame(do.call(rbind, lapply(content, as.data.frame)))
 
-### import terms from word matter knowledge graph ###
+### Import terms from word matter knowledge graph ###
 
 url_wordsmatter <- "https://api.linkeddata.cultureelerfgoed.nl/datasets/rce/Words-Matter-Knowledge-Graph/services/Words-Matter-Knowledge-Graph/sparql"
 query <- "PREFIX dct: <http://purl.org/dc/terms/>
@@ -252,18 +266,6 @@ print(colonial[matched_words != "", ])
 
 # Colophon
 
-Provided by the Dutch Cultural Heritage Agency, team Thesauri
+CHAS template provided by the Dutch Cultural Heritage Agency, team Thesauri
 
-Question and remarks: <thesauri@cultureelerfgoed.nl> 
-
-This PDF is generated on: $$\textbf{Current Time: } \(\now\)$$
-
-
-```{r, message=FALSE, echo=FALSE, warning=FALSE}
-
-message("Click on the button 'Knit' in the (almost) top of R Studio to generate a PDF (it will be stored in the same folder as your CHAS_report.Rmd file)")
-
-```
-
-
-
+Question and remarks: [thesauri@cultureelerfgoed.nl](thesauri@cultureelerfgoed.nl)

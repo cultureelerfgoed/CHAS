@@ -175,7 +175,7 @@ pre code {
 <h1>CHAS Toolkit: Cultural Heritage ASsessor</h1>
 <p><strong>Author</strong>: <a href="mailto:r.schalk@cultureelerfgoed.nl">Ruben Schalk</a><br />
 <strong>Affiliation</strong>: <a href="https://www.cultureelerfgoed.nl">Rijksdienst voor het Cultureel Erfgoed</a><br />
-<strong>Date</strong>: 2023-08-25 11:05:53</p>
+<strong>Date</strong>: 2023-09-22 10:33:06</p>
 <style type="text/css">
   body{
   font-size: 14pt;
@@ -198,12 +198,15 @@ h1:first-child {
 </li>
 <li><a href="#from-csv-to-linked-data">From csv to linked data</a><br />
 </li>
+<li><a href="#overview-of-terms">Overview of terms</a><br />
+</li>
 <li><a href="#connecting-to-thesauri-and-reference-data">Connecting to thesauri and reference data</a><br />
 
 <ul>
 <li><a href="#cultural-heritage-thesaurus">Cultural Heritage Thesaurus</a></li>
 <li><a href="#colonial-history-thesaurus">Colonial History thesaurus</a></li>
 <li><a href="#geonames">Geonames</a></li>
+<li><a href="#rkd-artists">RKD Artists</a></li>
 </ul></li>
 </ul>
 </div>
@@ -370,7 +373,7 @@ h1:first-child {
 </div>
 <div id="from-csv-to-linked-data" class="section level1">
 <h1>From csv to linked data <a href="#top">#</a></h1>
-<p>Different applications are available to convert the edited csv to linked data. It can be done using Python libraries, Openrefine (with RDF extension), the <a href="https://ldwizard.netwerkdigitaalerfgoed.nl/">LD Wizard</a>, or <a href="https://github.com/CLARIAH/COW">COW: CSV on the web converter</a>. Because we have relatively modest demands for our data, we’ll use LD Wizard. It’s very simple: upload the csv, select which vocabularies you want to use for the predicates (columns), edit your preferences (such as the base URI), and simply click ‘Next’ to convert to linked data. If you require more advanced data manipulation, e.g. adding additional relations, string manipulations, etc., then you can download and edit the COW-metadata file, and run the conversion again through either using COW or LD Wizard. A wiki how to use COW to it’s fullest can be found the <a href="https://github.com/CLARIAH/COW/wiki">COW Github repo</a>.</p>
+<p>Different applications are available to convert the edited csv to linked data. It can be done using Python libraries, Openrefine (with RDF extension), the <a href="https://ldwizard.netwerkdigitaalerfgoed.nl/">LD Wizard</a>, or <a href="https://github.com/CLARIAH/COW">COW: CSV on the web converter</a>. Because we have relatively modest demands for our data, we’ll use LD Wizard. It’s very simple: upload the csv, select which vocabularies you want to use for the predicates (columns), edit your preferences (such as the base URI), and simply click ‘Next’ to convert to linked data. If you require more advanced data manipulation, e.g. adding additional relations, string manipulations, etc., then you can download and edit the COW-metadata file, and run the conversion again through either using COW or LD Wizard. A wiki how to use COW to it’s fullest can be found at the <a href="https://github.com/CLARIAH/COW/wiki">COW Github repo</a>.</p>
 <p>To keep the data simple, we try to map all variables to related properties in Dublin Core or Dublin Core Terms, except for <code>object_name</code> and <code>technique</code>, for which we use <code>schema:artform</code>. All this can be changed easily according to preferences. Every object is defined as an instance of <code>edm:ProvidedCHO</code>. A colonial object now looks like this when expressed in linked data format (.nt):</p>
 <div class="table-wrapper" markdown="block">
 <table>
@@ -467,6 +470,53 @@ h1:first-child {
 </div>
 <p><br />
 The converted and mapped sample dataset has been uploaded to the <a href="https://linkeddata.cultureelerfgoed.nl/">Linked Data environment of the Dutch Cultural Heritage Agency</a>. This allows to add a SPARQL service that we can use to connect the colonial dataset to thesauri and other reference datasets (when available in linked data). If you want to repeat this exercise yourself, <a href="mailto:r.schalk@cultureelerfgoed.nl">drop us a line</a> and we can (temporarily) upload your dataset. There are also user-friendly open-source alternatives available such as <a href="https://graphdb.ontotext.com/">GraphDB</a>.</p>
+</div>
+<div id="overview-of-terms" class="section level1">
+<h1>Overview of terms</h1>
+<p>First we want to see what our terms actually look like. Are they already to some degree standardized? We’ll retrieve all the relevant terms from our dataset using a SPARQL query; a method that we’ll continue to use throughout this demo. The results are limited to 10, but you can change this to a higher figure. We see that top-10 terms in our colonial dataset are relatively standardized, but with some exceptions like ‘wol (textiel)’.</p>
+<pre class="r"><code>url &lt;- &quot;https://api.linkeddata.cultureelerfgoed.nl/datasets/ruben-schalk/colonial/services/europeana-colonial/sparql&quot;
+sparql_query &lt;- &quot;PREFIX dct: &lt;http://purl.org/dc/terms/&gt;  
+PREFIX schema: &lt;https://schema.org/&gt;
+PREFIX skos: &lt;http://www.w3.org/2004/02/skos/core#&gt;
+PREFIX dc: &lt;http://purl.org/dc/elements/1.1/&gt;
+PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+                  
+            SELECT ?obj (count(?obj) as ?n) WHERE {
+                   
+                    ?sub dct:medium|dct:subject|schema:artform ?obj .
+                    
+                    
+                  } 
+ORDER BY DESC (?n)
+LIMIT 20&quot;
+                  
+
+response &lt;- POST(url, body = list(query = sparql_query))
+content &lt;- content(response, &quot;parsed&quot;)
+df &lt;- as.data.frame(do.call(rbind, lapply(content, as.data.frame)))
+print(df)</code></pre>
+<pre><code>##               obj  n
+## 1         textiel 63
+## 2  Oosters tapijt 60
+## 3          tapijt 60
+## 4   wol (textiel) 60
+## 5  beeldhouwkunst 50
+## 6        geknoopt 49
+## 7       sculptuur 46
+## 8  figuurplastiek 35
+## 9     miscellanea 35
+## 10      aardewerk 31
+## 11   archeologica 30
+## 12       fragment 30
+## 13        pigment 30
+## 14         zilver 25
+## 15           hout 22
+## 16         katoen 22
+## 17         kralen 21
+## 18        geweven 20
+## 19          zijde 17
+## 20            tas 14</code></pre>
 </div>
 <div id="connecting-to-thesauri-and-reference-data" class="section level1">
 <h1>Connecting to thesauri and reference data <a href="#top">#</a></h1>
@@ -587,7 +637,7 @@ For example, whereas earlier the triple for an object would have been:<br />
 </div>
 <div id="colonial-history-thesaurus" class="section level3">
 <h3>Colonial History thesaurus <a href="#top">#</a></h3>
-<p>The ‘Koloniaal Verleden’ term list contains terms that can be associated with a colonial heritage. Think of terms like ‘ivory’, ‘spices’, ‘sugar’ or ‘textiles’. It provides a nice example to show that we only need to adapt the query modestly when we want to connect our sample data to another thesaurus that uses the same datamodel (<code>SKOS</code> in this case). To do this, we’ve only removed the <code>GRAPH</code> claused (not needed for this thesaurus), adapted the endpoint URL, and renamed the variables for clarification:</p>
+<p>The ‘Koloniaal Verleden’ term list contains terms that can be associated with a colonial heritage. Think of terms like ‘ivory’, ‘spices’, ‘sugar’ or ‘textiles’. It provides a nice example to show that we only need to adapt the query modestly when we want to connect our sample data to another thesaurus that uses the same datamodel (<code>SKOS</code> in this case). To do this, we’ve only removed the <code>GRAPH</code> clause (not needed for this thesaurus), adapted the endpoint URL, and renamed the variables for clarification:</p>
 <pre class="r"><code>url &lt;- &quot;https://api.linkeddata.cultureelerfgoed.nl/datasets/ruben-schalk/colonial/services/europeana-colonial/sparql&quot;
 sparql_query &lt;- &quot;PREFIX dct: &lt;http://purl.org/dc/terms/&gt;  
                   PREFIX schema: &lt;https://schema.org/&gt;
@@ -622,7 +672,7 @@ Interestingly, we can only match nine keywords to this thesaurus, even though th
 </div>
 <div id="geonames" class="section level3">
 <h3>Geonames <a href="#top">#</a></h3>
-<p>Next, we’ll try to harmonize spatial keywords. Geonames has been made available as linked data for Dutch, Belgian and German placenames. Unfortunately, we still lack a truly global overview of current and historical placenames, but this is a start. The query below matches distinct terms from the colonial dataset to this Geonames subset.Out of the 55 unique spatial keywords in the data, 10 have a match with a Geonames entity.</p>
+<p>Next, we’ll try to harmonize spatial keywords. Geonames has been made available as linked data for Dutch, Belgian and German placenames. Unfortunately, we still lack a truly global overview of current and historical placenames, but this is a start. The query below matches distinct terms from the colonial dataset to this Geonames subset. Out of the 55 unique spatial keywords in the data, 10 have a match with a Geonames entity.</p>
 <pre class="r"><code>url &lt;- &quot;https://api.linkeddata.cultureelerfgoed.nl/queries/ruben-schalk/colonial-geonames/run&quot;
 sparql_query &lt;- &quot;PREFIX dct: &lt;http://purl.org/dc/terms/&gt;
 PREFIX schema: &lt;https://schema.org/&gt;
@@ -651,8 +701,157 @@ print(df)</code></pre>
 <pre><code>##   colonial_spatial geonames_match
 ## 1               55             10</code></pre>
 </div>
-<div id="getty-placenames" class="section level3">
-<h3>Getty placenames <a href="#top">#</a></h3>
+<div id="cultural-heritage-thesaurus-test-2" class="section level3">
+<h3>Cultural Heritage Thesaurus: test 2 <a href="#top">#</a></h3>
+<p>Now that the idea is hopefully clear, we’ll move to another dataset: <a href="https://linkeddata.cultureelerfgoed.nl/ruben-schalk/rce-art-sample">a sample of the art collection kept by the Dutch Cultural Heritage Agency</a>. The nice thing about the code chunks is that we can just copy a query from above. We only need to the url. Because the LOD conversion is done in the same manner, the predicates are the same as the colonial dataset. Let’s test the terms from this collection against the CHT:</p>
+<pre class="r"><code>url &lt;- &quot;https://api.linkeddata.cultureelerfgoed.nl/datasets/ruben-schalk/rce-art-sample/services/rce-art-sample/sparql&quot;
+sparql_query &lt;- &quot;PREFIX dct: &lt;http://purl.org/dc/terms/&gt;  
+PREFIX schema: &lt;https://schema.org/&gt;
+PREFIX skos: &lt;http://www.w3.org/2004/02/skos/core#&gt;
+PREFIX dc: &lt;http://purl.org/dc/elements/1.1/&gt;
+PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+                  
+                 SELECT (count(distinct(?obj)) as ?terms) (count(distinct(?uri_cht)) as ?cht_matches) WHERE {
+                   
+                    ?sub dct:medium|dct:subject|schema:artform ?obj .
+                    
+                    BIND(strlang(?obj, &#39;nl&#39;) AS ?obj_nl)
+                    
+                SERVICE &lt;https://api.linkeddata.cultureelerfgoed.nl/datasets/rce/Cultuurhistorische-Thesaurus-CHT/services/Cultuurhistorische-Thesaurus-CHT/sparql&gt; {
+                     
+                      GRAPH &lt;https://data.cultureelerfgoed.nl/term/id/cht/thesaurus&gt; {
+                    
+                        optional{   ?uri_cht skos:prefLabel|skos:altLabel|skos:hiddenLabel ?obj_nl . }
+                      
+    }}  
+                  } 
+    LIMIT 10&quot;
+                  
+
+response &lt;- POST(url, body = list(query = sparql_query))
+content &lt;- content(response, &quot;parsed&quot;)
+df &lt;- as.data.frame(do.call(rbind, lapply(content, as.data.frame)))
+print(df)</code></pre>
+<pre><code>##                   X[[i]]
+## message Gateway Timeout.</code></pre>
+<p>That’s quite a nice score: about 68 per cent of terms can be matched directly against the CHT.</p>
+</div>
+<div id="contested-terms" class="section level3">
+<h3>Contested Terms <a href="#top">#</a></h3>
+<p>Now that the replication seems to work (do try this out for the other queries as well!), a final evaluation exercise is to map descriptions of objects against a knowledge graph of contested terms. Using expert-advice a group of researchers published a list of terms that could be considered as contested in descriptions of objects. In the context of decolonizing collections, it would be nice to get a quick overview of potentially contested terms in a collection, without having to go through all the descriptions manually. That is what our final query aims to do. It retrieves the descriptions from a collection, tries to match these against the contentious terms knowledge graph and returns the potential contested terms for each item, or as a table overview.</p>
+<pre class="r"><code>### import descriptions as text from collection ###
+
+url &lt;- &quot;https://api.linkeddata.cultureelerfgoed.nl/datasets/ruben-schalk/rce-art-sample/services/rce-art-sample/sparql&quot;
+query &lt;- &quot;PREFIX dct: &lt;http://purl.org/dc/terms/&gt;
+          PREFIX schema: &lt;https://schema.org/&gt;
+          PREFIX skos: &lt;http://www.w3.org/2004/02/skos/core#&gt;
+          PREFIX dc: &lt;http://purl.org/dc/elements/1.1/&gt;
+          PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+          PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+
+          SELECT ?identifier ?description WHERE {
+  
+           ?identifier dct:title ?description .
+  
+              
+          } 
+          LIMIT 500&quot;
+
+response &lt;- POST(url, body = list(query = query))
+content &lt;- content(response, &quot;parsed&quot;)
+colonial &lt;- as.data.frame(do.call(rbind, lapply(content, as.data.frame)))
+
+### import terms from word matter knowledge graph ###
+
+url_wordsmatter &lt;- &quot;https://api.linkeddata.cultureelerfgoed.nl/datasets/rce/Words-Matter-Knowledge-Graph/services/Words-Matter-Knowledge-Graph/sparql&quot;
+query &lt;- &quot;PREFIX dct: &lt;http://purl.org/dc/terms/&gt;
+          PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+          PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+          SELECT DISTINCT ?obj WHERE {
+            ?sub &lt;http://www.w3.org/2008/05/skos-xl#literalForm&gt; ?obj .
+            
+            FILTER(LANG(?obj) = &#39;nl&#39;)
+            } &quot;
+
+response &lt;- POST(url_wordsmatter, body = list(query = query))
+content &lt;- content(response, &quot;parsed&quot;)
+wordsm &lt;- as.data.frame(do.call(rbind, lapply(content, as.data.frame)))
+
+### Find terms from description in collection in words matter graph ###
+
+
+# Function to check if any word from word_df appears in the text_variable of text_df
+
+check_words_in_text &lt;- function(word_df, text_df, word_column, text_variable) {
+  # Create an empty logical vector to store results
+  match_results &lt;- logical(nrow(text_df))
+  
+  # Create an empty list to store the matched words for each row
+  matched_words_list &lt;- vector(&quot;list&quot;, length = nrow(text_df))
+  
+  # Loop through the words in word_df and check if they appear in any row of text_df&#39;s text_variable
+  for (i in seq_len(nrow(text_df))) {
+    text &lt;- text_df[[text_variable]][i]
+    words &lt;- stri_extract_all_regex(text, paste0(&quot;\\b&quot;, word_df[[word_column]], &quot;\\b&quot;), opts_regex = list(case_insensitive = TRUE))
+    matched_words &lt;- unique(na.omit(unlist(words)))
+    if (length(matched_words) &gt; 0) {
+      match_results[i] &lt;- TRUE
+      matched_words_list[[i]] &lt;- matched_words
+    }
+  }
+  
+  # Convert the list of matched words to a character vector
+  matched_words &lt;- sapply(matched_words_list, function(x) {
+    if (length(x) == 0) return(&quot;&quot;)
+    paste(x, collapse = &quot;, &quot;)
+  })
+  
+  return(list(match_results, matched_words))
+}
+
+# Call the function to find matches between &#39;obj&#39; in wordsm and &#39;description&#39; in colonial
+results &lt;- check_words_in_text(wordsm, colonial, &quot;obj&quot;, &quot;description&quot;)
+
+# Extract the match_results and matched_words from the results list
+matches &lt;- results[[1]]
+matched_words &lt;- results[[2]]
+
+# Add the match_results and matched_words as new columns to colonial
+colonial$matches &lt;- matches
+colonial$matched_words &lt;- matched_words
+setDT(colonial)
+print(colonial[matched_words != &quot;&quot;, ])</code></pre>
+<pre><code>##                                                                        identifier
+## 1: https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_131257
+## 2: https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_131258
+## 3: https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_131260
+## 4: https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_131264
+## 5: https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_133248
+## 6: https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_133250
+## 7: https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_133251
+## 8:  https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_53533
+## 9:  https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_58790
+##                                                   description matches
+## 1:                                          West-Indisch huis    TRUE
+## 2:                                          West-Indisch huis    TRUE
+## 3:                                          West-Indisch huis    TRUE
+## 4:                                          West-Indisch huis    TRUE
+## 5:                                                    Batavia    TRUE
+## 6:                                                    Batavia    TRUE
+## 7:                                                    Batavia    TRUE
+## 8: Emilia van Nassau-Beverweerd (1635-1688), met een bediende    TRUE
+## 9:                Wit huis bij maanlicht St. Alban de Montbel    TRUE
+##    matched_words
+## 1:       Indisch
+## 2:       Indisch
+## 3:       Indisch
+## 4:       Indisch
+## 5:       Batavia
+## 6:       Batavia
+## 7:       Batavia
+## 8:      bediende
+## 9:           Wit</code></pre>
 </div>
 </div>
 

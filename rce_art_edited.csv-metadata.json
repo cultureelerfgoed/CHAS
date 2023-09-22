@@ -1,0 +1,140 @@
+{
+  "@id": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/",
+  "@context": [
+    "https://raw.githubusercontent.com/CLARIAH/COW/master/csvw.json",
+    {
+      "@base": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/"
+    }
+  ],
+  "url": "",
+  "dialect": {
+    "delimiter": ";",
+    "encoding": "UTF-8",
+    "quoteChar": "\""
+  },
+  "tableSchema": {
+    "aboutUrl": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/{rce_id}",
+    "primaryKey": "{rce_id}",
+    "columns": [
+      {
+        "virtual": true,
+        "propertyUrl": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+        "aboutUrl": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/{rce_id}",
+        "valueUrl": "http://www.w3.org/2000/01/rdf-schema#Resource"
+      },
+        {
+        "datatype": "string",
+        "@id": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/column/institution_name",
+        "name": "institution_name",
+        "propertyUrl": "http://purl.org/dc/terms/publisher"
+      },
+      {
+        "datatype": "string",
+        "@id": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/column/institution_place",
+        "name": "institution_place",
+        "propertyUrl": "http://purl.org/dc/terms/spatial"
+      },
+      {
+        "datatype": "string",
+        "@id": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/column/material_1",
+        "name": "material_1",
+        "propertyUrl": "http://purl.org/dc/terms/medium"
+      },
+      {
+        "datatype": "string",
+        "@id": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/column/material_2",
+        "name": "material_2",
+        "propertyUrl": "http://purl.org/dc/terms/medium"
+      },
+      {
+        "datatype": "string",
+        "@id": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/column/category",
+        "name": "category",
+        "propertyUrl": "http://purl.org/dc/terms/subject"
+      },
+      {
+        "datatype": "string",
+        "@id": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/column/object_name",
+        "name": "object_name",
+        "propertyUrl": "https://schema.org/artform"
+      },
+      {
+        "datatype": "string",
+        "@id": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/column/creator_name",
+        "name": "creator_name",
+        "propertyUrl": "http://purl.org/dc/terms/creator"
+      },
+      {
+        "datatype": "string",
+        "@id": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/column/creator_birth_date",
+        "name": "creator_birth_date",
+        "propertyUrl": "https://schema.org/birthDate"
+      },
+      {
+        "datatype": "string",
+        "@id": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/column/creator_death_date",
+        "name": "creator_death_date",
+        "propertyUrl": "https://schema.org/deathDate"
+      },
+      {
+        "datatype": "string",
+        "@id": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/column/creator_digital_reference",
+        "name": "creator_digital_reference",
+        "propertyUrl": "http://purl.org/dc/terms/references"
+      },
+      {
+        "datatype": "string",
+        "@id": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/column/cretor_gender",
+        "name": "cretor_gender",
+        "propertyUrl": "https://schema.org/gender"
+      },
+        {
+        "datatype": "string",
+        "@id": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/column/creator_pob",
+        "name": "creator_pob",
+        "propertyUrl": "http://purl.org/dc/terms/spatial"
+      },
+      {
+        "datatype": "string",
+        "@id": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/column/creator_pod",
+        "name": "creator_pod",
+        "propertyUrl": "http://purl.org/dc/terms/spatial"
+      },
+      {
+        "datatype": "string",
+        "@id": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/column/production_place",
+        "name": "production_place",
+        "propertyUrl": "http://purl.org/dc/terms/spatial"
+      },
+      {
+        "datatype": "string",
+        "@id": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/column/title",
+        "name": "title",
+        "propertyUrl": "http://purl.org/dc/terms/title"
+      },
+      {
+        "datatype": "string",
+        "@id": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/column/acquisition_source",
+        "name": "acquisition_source",
+        "propertyUrl": "https://schema.org/acquiredFrom"
+      },
+      {
+        "datatype": "string",
+        "@id": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/column/acquisition_place",
+        "name": "acquisition_place",
+        "propertyUrl": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/def/acquisition_place"
+      },
+      {
+        "datatype": "string",
+        "@id": "https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/column/associated_subject",
+        "name": "associated_subject",
+        "propertyUrl": "http://purl.org/dc/terms/subject"
+      },
+      {
+        "virtual": "true",
+        "propertyUrl": "rdf:type",
+        "valueUrl": "http://www.europeana.eu/schemas/edm/ProvidedCHO"
+         }      
+    ]
+  }
+}

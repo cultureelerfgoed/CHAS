@@ -1,0 +1,233 @@
+{
+ "@id": "https://iisg.amsterdam/colonial_edited.csv",
+ "@context": [
+  "https://raw.githubusercontent.com/CLARIAH/COW/master/csvw.json",
+  {
+   "@language": "en",
+   "@base": "https://rce.test/europeana/rcecolonial/"
+  },
+  {
+   "aat": "http://vocab.getty.edu/aat/",
+   "bibo": "http://purl.org/ontology/bibo/",
+   "bio": "http://purl.org/vocab/bio/0.1/",
+   "cidoc": "http://www.cidoc-crm.org/cidoc-crm/",
+   "csvw": "http://www.w3.org/ns/csvw#",
+   "dbo": "http://dbpedia.org/ontology/",
+   "dct": "http://purl.org/dc/terms/",
+   "dc": "http://purl.org/dc/elements/1.1/",
+   "dcterms": "http://purl.org/dc/terms/",
+   "ecpo": "http://purl.org/ontology/ecpo#",
+   "foaf": "http://xmlns.com/foaf/0.1/",
+   "frbr": "http://purl.org/spar/frbr/core#",
+   "geo": "http://www.opengis.net/ont/geosparql#",
+   "geonames": "http://www.geonames.org/ontology#",
+   "gvp": "http://vocab.getty.edu/ontology#'",
+   "juso": "http://http://rdfs.co/juso/",
+   "lemon": "http://lemon-model.net/lemon#",
+   "midi": "http://purl.org/midi-ld/midi#",
+   "np": "http://www.nanopub.org/nschema#",
+   "owl": "http://www.w3.org/2002/07/owl#",
+   "periodo": "http://n2t.net/ark:/99152/p0v#",
+   "pnv": "https://www.lodewijkpetram.nl/vocab/pnv/doc/",
+   "prov": "http://www.w3.org/ns/prov#",
+   "qb": "http://purl.org/linked-data/cube#",
+   "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+   "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+   "schema": "https://schema.org/",
+   "sdmx-concept": "http://purl.org/linked-data/sdmx/2009/concept#",
+   "sdr": "https://iisg.amsterdam/",
+   "sdv": "https://iisg.amsterdam/vocab/",
+   "sem": "http://semanticweb.cs.vu.nl/2009/11/sem/",
+   "skos": "http://www.w3.org/2004/02/skos/core#",
+   "time": "http://www.w3.org/2006/time#",
+   "ulan": "http://vocab.getty.edu/ulan/",
+   "wgs84": "http://www.w3.org/2003/01/geo/wgs84_pos#",
+   "xml": "http://www.w3.org/XML/1998/namespace/",
+   "xsd": "http://www.w3.org/2001/XMLSchema#"
+  }
+ ],
+ "url": "colonial_edited.csv",
+ "dialect": {
+  "delimiter": ";",
+  "encoding": "UTF-8-SIG",
+  "quoteChar": "\""
+ },
+ "dc:title": "colonial_edited.csv",
+ "dcat:keyword": [],
+ "dc:publisher": {
+  "schema:name": "RCE",
+  "schema:url": {
+   "@id": "http://datalegend.net"
+  }
+ },
+ "dc:license": {
+  "@id": "http://opendefinition.org/licenses/cc-by/"
+ },
+ "dc:modified": {
+  "@value": "2023-07-31",
+  "@type": "xsd:date"
+ },
+ "tableSchema": {
+  "columns": [
+     {
+    "@id": "https://iisg.amsterdam/colonial_edited.csv/column/associated_subject_1",
+    "name": "associated_subject_1",
+    "titles": [ "associated_subject_1"  ],
+    "dc:description": "associated_subject_1",
+    "propertyUrl": "dct:subject",
+    "datatype": "string",
+    "lang": "nl"
+  },
+  {
+    "@id": "https://iisg.amsterdam/colonial_edited.csv/column/associated_subject_2",
+    "name": "associated_subject_2",
+    "titles": [ "associated_subject_2"],
+    "dc:description": "associated_subject_2",
+    "datatype": "string",
+    "propertyUrl": "dct:subject",
+    "datatype": "string",
+    "lang": "nl"
+   },
+   {
+    "@id": "https://iisg.amsterdam/colonial_edited.csv/column/associated_subject_3",
+    "name": "associated_subject_3",
+    "titles": [ "associated_subject_3"],
+    "dc:description": "associated_subject_3",
+    "datatype": "string",
+    "propertyUrl": "dct:subject",
+    "datatype": "string",
+    "lang": "nl"
+   },
+   {
+    "@id": "https://iisg.amsterdam/colonial_edited.csv/column/associated_subject_4",
+    "name": "associated_subject_4",
+    "titles": [ "associated_subject_4"],
+    "dc:description": "associated_subject_4",
+    "datatype": "string",
+    "propertyUrl": "dct:subject",
+    "datatype": "string",
+    "lang": "nl"
+  },
+  {
+    "@id": "https://iisg.amsterdam/colonial_edited.csv/column/description",
+    "name": "description",
+    "titles": [ "description"  ],
+    "dc:description": "description",
+    "datatype": "string",
+    "propertyUrl": "dct:description",
+    "lang": "nl"
+   },
+   {
+    "virtual": "true",
+    "@id": "https://iisg.amsterdam/colonial_edited.csv/column/institution_name",
+    "name": "institution_name",
+    "titles": [ "institution_name"],
+    "dc:description": "institution_name",
+    "propertyUrl": "dct:publisher",
+    "valueUrl": "{institution_name}"
+  },
+  {
+    "virtual": "true",
+    "@id": "https://iisg.amsterdam/colonial_edited.csv/column/institution_place",
+    "name": "institution_place",
+    "titles": [ "institution_place"],
+    "dc:description": "institution_place",
+    "datatype": "string",
+    "propertyUrl": "dct:spatial",
+    "aboutUrl": "{institution_name}"
+  },
+  {
+    "@id": "https://iisg.amsterdam/colonial_edited.csv/column/material_1",
+    "name": "material_1",
+    "titles": ["material_1"],
+    "dc:description": "material_1",
+    "datatype": "string",
+    "propertyUrl": "dct:medium",
+    "lang": "nl"
+   },
+   {
+    "@id": "https://iisg.amsterdam/colonial_edited.csv/column/material_2",
+    "name": "material_2",
+    "titles": [
+     "material_2"
+    ],
+    "dc:description": "material_2",
+    "datatype": "string",
+    "propertyUrl": "dct:medium",
+    "lang": "nl"
+  },
+  {
+    "@id": "https://iisg.amsterdam/colonial_edited.csv/column/object_category",
+    "name": "object_category",
+    "titles": [
+     "object_category"
+    ],
+    "dc:description": "object_category",
+    "datatype": "string",
+    "propertyUrl": "dct:type",
+    "lang": "nl"
+   },
+   {
+    "@id": "https://iisg.amsterdam/colonial_edited.csv/column/object_name",
+    "name": "object_name",
+    "titles": [
+     "object_name"
+    ],
+    "dc:description": "object_name",
+    "datatype": "string",
+    "propertyUrl": "schema:artform",
+    "lang": "nl"
+  },
+  {
+    "@id": "https://iisg.amsterdam/colonial_edited.csv/column/object_number",
+    "name": "object_number",
+    "titles": [  "object_number"
+    ],
+    "dc:description": "object_number",
+    "datatype": "string",
+    "propertyUrl": "identifier"
+  },
+  {
+    "@id": "https://iisg.amsterdam/colonial_edited.csv/column/creator_name",
+    "name": "creator_name",
+    "titles": [
+     "creator_name"
+    ],
+    "dc:description": "creator_name",
+    "datatype": "string",
+    "propertyUrl": "dc:creator"
+  },
+  {
+   "@id": "https://iisg.amsterdam/colonial_edited.csv/column/production_place",
+   "name": "production_place",
+   "titles": ["production_place"],
+   "dc:description": "production_place",
+   "datatype": "string",
+   "propertyUrl": "dct:spatial"
+ },
+ {
+    "@id": "https://iisg.amsterdam/colonial_edited.csv/column/acquisition_place",
+    "name": "acquisition_place",
+    "titles": ["acquisition_place"  ],
+    "dc:description": "acquisition_place",
+    "datatype": "string",
+    "propertyUrl": "acquisitionPlace"
+   },
+   {
+    "@id": "https://iisg.amsterdam/colonial_edited.csv/column/technique",
+    "name": "technique",
+    "titles": ["technique"],
+    "dc:description": "technique",
+    "datatype": "string",
+    "propertyUrl": "technique"
+  },
+  {
+   "virtual": "true",
+   "propertyUrl": "rdf:type",
+   "valueUrl": "http://www.europeana.eu/schemas/edm/ProvidedCHO"
+    }
+  ],
+  "primaryKey": "{object_number}",
+  "aboutUrl": "{object_number}"
+ }
+}

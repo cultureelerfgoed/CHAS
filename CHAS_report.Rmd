@@ -1,0 +1,17 @@
+---
+title: "CHAS_report"
+author: "Ruben Schalk"
+date: "22-9-2023"
+output: pdf_document
+---
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+library(jsonlite) 
+library(rjson)
+library(data.table)
+library(httr)
+library(curl)
+library(stringi)
+
+```

@@ -266,6 +266,10 @@ print(colonial[matched_words != "", ])
 
 # Colophon
 
-CHAS template provided by the Dutch Cultural Heritage Agency, team Thesauri
+CHAS is created by the Dutch Cultural Heritage Agency, team Thesauri.
+
+The report function provided by CHAS are experimental in nature. It means that it is still under development and may not be free from errors or issues. While we have made every effort to ensure its accuracy, there could be unforeseen challenges and results. Its use is entirely at your discretion and risk.
+
+[MIT Licence](https://github.com/cultureelerfgoed/CHAS/blob/main/LICENSE)
 
 Question and remarks: [thesauri@cultureelerfgoed.nl](thesauri@cultureelerfgoed.nl)

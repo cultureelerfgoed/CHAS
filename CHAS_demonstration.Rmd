@@ -6,16 +6,15 @@ title: "Cultural Heritage ASessor (CHAS)"
 <img src="RCE_logo.png" alt="RCE Image"/>
 :::
 
-# CHAS Toolkit: Cultural Heritage ASsessor
+# CHAS: Cultural Heritage ASsessor
 
-**Author**: [Ruben Schalk](mailto:r.schalk@cultureelerfgoed.nl)\
+**Author**: [Ruben Schalk & Joop Vanderheiden](mailto:r.schalk@cultureelerfgoed.nl)\
 **Affiliation**: [Rijksdienst voor het Cultureel Erfgoed](https://www.cultureelerfgoed.nl)\
 **Date**: `r format(Sys.time())`
 
-```{=html}
 <style type="text/css">
   body{
-  font-size: 14pt;
+  font-size: 13pt;
 text-align: justify}
 .table-wrapper {
   overflow-x: scroll;
@@ -24,7 +23,7 @@ h1:first-child {
     display: none;
   }
 </style>
-```
+
 ```{r message=FALSE, warning=FALSE, echo=FALSE}
 
 library(jsonlite) 
@@ -43,6 +42,7 @@ setwd("C:\\Users\\Ruben\\Documents\\05. RCE\\Europeana")
 # Content
 
 -   [Background](#background)\
+-   [CHAS explained](#chas-explained)\
 -   [From CMS to csv](#from-cms-to-csv)\
 -   [From csv to linked data](#from-csv-to-linked-data)\
 -   [Overview of terms](#overview-of-terms)\
@@ -51,25 +51,29 @@ setwd("C:\\Users\\Ruben\\Documents\\05. RCE\\Europeana")
     -   [Colonial History thesaurus](#colonial-history-thesaurus)
     -   [Geonames](#geonames)
     -   [Cultural Heritage Thesaurus: test 2](#cultural-heritage-thesaurus-test-2)
-    -   [Contested terms](#contested-terms)
+    -   [Contested terms: Words Matter Knowledge Graph](#contested-terms-words-matter-knowledge-graph)
 -   [Conclusion](#conclusion)
+    -   [Future steps](#future-steps)
+    -   [Disclaimer](#disclaimer)
 
-# Background {#background}
+## Background {#background}
 
 Many museums, libraries, archives and other cultural heritage institutions are currently working on digitally disclosing their collections. In The Netherlands, publishing these data in the [linked data format](https://netwerkdigitaalerfgoed.nl/activiteiten/linked-data-2/) is the format of choice . By using linked data, collections can be shared in an interoperable manner. But what is more important, when using linked data to its fullest connections can be made with other data, live on the web. In this way, paintings from a specific artist can be connected to another painting by the same artists in another museum, even when the first museum is unaware of its existence. For users this is great: building applications on top of linked data collections allows them to discover related objects across institutions across the world.
 
 Great as this sounds, publishing linked data and using its fullest potential comes with challenges. First, converting data from a collections management system to linked data is often not yet possible from within these applications. Second, and most importantly, linked data only becomes truly linked if the metadata uses URI's from publicly available thesauri or other term lists. For example, if museum A only denotes Van Gogh as `Gogh, Vincent van`, and museum B only uses `Vincent van Gogh`, no connection can be made between related objects. However, if both museums also provide a URI (more or less a URL) from a thesauri to describe Van Gogh - for instance <https://data.rkd.nl/artists/32439> - then we can use this URI to 'travel' between objects of the same artist (and all related information) when the collection is published as linked data. The same goes for other key variables, such as materials, genres, categories, etc. Ideally, GLAMs should incorporate URI's from thesauri like the [Cultural Heritage Thesaurus](https://thesaurus.cultureelerfgoed.nl/), [curated bibliographies](http://data.bibliotheken.nl/doc/dataset/persons) or others to describe their objects.
 
+## CHAS explained {#chas-explained}
+
 As long as publishing thesauri-enriched linked data is not yet the industry standard, GLAMs benefit from tools, tips and tricks to help them get started. This is what we aim to do with the pipeline presented here. We have called it the Cultural Heritage ASsessor (or CHAS). CHAS presents a combination of scripts, templates and SPARQL queries that help GLAMs to:\
 
 -   convert records to linked data;
--   evaluate how easily these records can be enriched with certain thesauri or other term list, such as contested terms in cultural heritage.
+-   assess to what degree these records can be enriched with certain thesauri or other term list, without harmonization efforts.
 
 Together, these steps assist GLAMs to publish linked data, and connect this to public thesauri to make it more usable for others. In the remainder of this explanation we'll use two sample datasets to illustrate the process, provided by the [Dutch Cultural Heritage Agency (RCE)](https://www.cultureelerfgoed.nl/). 
 
-If you want to try out the scripts on your own collection data, read through the README of the [CHAS repo](https://github.com/cultureelerfgoed/CHAS) and use the [CHAS_report file](https://github.com/cultureelerfgoed/CHAS/blob/main/CHAS_report.Rmd) on your own dataset. Note that some experience with programming, SPARQL or data science is required. In the future, we aim to make the pipeline more user friendly and make it available in additional programming languages.
+If you want to try out the scripts on your own collection data, read through the README of the [CHAS repo](https://github.com/cultureelerfgoed/CHAS) and use the [CHAS_report file](https://github.com/cultureelerfgoed/CHAS/blob/main/CHAS_report.Rmd) on your own dataset. Note that some experience with programming, SPARQL and/or data science may be required.
 
-# From CMS to csv [\#](#top) {#from-cms-to-csv}
+## From CMS to csv [\#](#top) {#from-cms-to-csv}
 
 We start the pipeline with an export from a collections management system, which is a csv file in our example. Should you have an xml file, you can convert this to csv using software like Excel or Openrefine, or online converters like [convertio](https://convertio.co/). The choice to start from a csv is intentional: using a csv forces us to keep the datamodel as 'flat' as possible, which helps to maintain an easy overview of the data. This suits our purpose of assessing collection data. When 'officially' publishing collections as linked data it is likely that the datamodel becomes more layered to keep as much context and content as possible.
 
@@ -90,7 +94,7 @@ The export sample csv contains several hundreds objects with a colonial connecti
 
 We have kept some identifier columns to allow merging of edits with the original records.
 
-# From csv to linked data [\#](#top) {#from-csv-to-linked-data}
+## From csv to linked data [\#](#top) {#from-csv-to-linked-data}
 
 Different applications are available to convert the edited csv to linked data. It can be done using Python libraries, Openrefine (with RDF extension), the [LD Wizard](https://ldwizard.netwerkdigitaalerfgoed.nl/), or [COW: CSV on the web converter](https://github.com/CLARIAH/COW). Because we have relatively modest demands for our data, we'll use LD Wizard. It's very simple: upload the csv, select which vocabularies you want to use for the predicates (columns), edit your preferences (such as the base URI), and simply click 'Next' to convert to linked data. If you require more advanced data manipulation, e.g. adding additional relations, string manipulations, etc., then you can download and edit the COW-metadata file, and run the conversion again through either using COW or LD Wizard. A wiki how to use COW to it's fullest can be found at the [COW Github repo](https://github.com/CLARIAH/COW/wiki).
 
@@ -119,7 +123,7 @@ To keep the data simple, we try to map all variables to related properties in Du
 \
 The converted and mapped sample dataset has been uploaded to the [Linked Data environment of the Dutch Cultural Heritage Agency](https://linkeddata.cultureelerfgoed.nl/). This allows to add a SPARQL service that we can use to connect the colonial dataset to thesauri and other reference datasets (when available in linked data). If you want to repeat this exercise yourself,there are user-friendly open-source alternatives available such as [GraphDB](https://graphdb.ontotext.com/) (desktop version), or free online triplestores such as [TriplyDB](https://triplydb.com/).
 
-# Overview of terms {#overview-of-terms}
+## Overview of terms [\#](#top)
 
 Now the fun part can begin. How good is the quality of our collection data? First we want to see what our terms actually look like. Are they already to some degree standardized? We'll retrieve all the relevant terms from our dataset using a SPARQL query; a method that we'll continue to use throughout this demo. The results are limited to 20, but you set a higher figure. We see that top-20 terms in our colonial dataset are relatively standardized, but with some exceptions like 'wol (textiel)'.
 
@@ -150,11 +154,11 @@ print(df)
 
 ```
 
-# Connecting to thesauri and reference data [\#](#top) {#connecting-to-thesauri-and-reference-data}
+## Connecting to thesauri and reference data [\#](#top) {#connecting-to-thesauri-and-reference-data}
 
 Can we improve the usability of the collection by adding URI's of thesauri? Let's find out.
 
-### Cultural Heritage Thesaurus [\#](#top) {#cultural-heritage-thesaurus}
+### Cultural Heritage Thesaurus [\#](#top)
 
 We'll first try to connect the `dct` and `schema:artform` fields to labels in the [Cultural Heritage Thesaurus (CHT)](https://thesaurus.cultureelerfgoed.nl/). Many Dutch GLAMs use this thesaurus already, so adding some of these URI's helps to connect our data to theirs. The code below shows a SPARQL query that fetches these keywords from the colonial dataset, and checks whether these occur (in exactly the same spelling) in the SKOS `prefLabel`, `hiddenLabel`, or `altlabel` of CHT concepts.
 
@@ -316,7 +320,7 @@ print(df)
 
 ### Cultural Heritage Thesaurus: test 2 [\#](#top)
 
-Now that the idea is hopefully clear, we'll move to another dataset: [a sample of the art collection kept by the Dutch Cultural Heritage Agency](https://linkeddata.cultureelerfgoed.nl/ruben-schalk/rce-art-sample). The nice thing about the code chunks is that we can just copy a query from above. We only need to the url. Because the LOD conversion is done in the same manner, the predicates are the same as the colonial dataset. Let's test the terms from this collection against the CHT:
+Now that the idea is hopefully clear, we'll move to another dataset: [a sample of the art collection kept by the Dutch Cultural Heritage Agency](https://linkeddata.cultureelerfgoed.nl/ruben-schalk/rce-art-sample). The nice thing about the code chunks is that we can just copy a query from above. We only need to adapt the url so that it calls the SPARQL endpoint of the second dataset. Because the LOD conversion is done in the same manner, the predicates are the same as the colonial dataset. Let's test the terms from this collection against the CHT:
 
 ```{r message=FALSE, warning=FALSE, echo=TRUE}
 
@@ -354,11 +358,11 @@ print(df)
 
 That's quite a nice score: about 68 per cent of terms can be matched directly against the CHT.
 
-### Contested Terms [\#](#top)
+### Contested Terms: Words Matter Knowledge Graph [\#](#top)
 
-Now that the replication seems to work (do try this out for the other queries as well!), a final evaluation exercise is to map descriptions of objects against a knowledge graph of contested terms. Using expert-advice a group of researchers published a list of terms that could be considered as contested in descriptions of objects. See their paper here: <https://ir.cwi.nl/pub/33129/>. A copy of this graph can be queried at the linked data environment of the Dutch Cultural Heritage Agency: <https://linkeddata.cultureelerfgoed.nl/rce/Words-Matter-Knowledge-Graph>.
+Now that the replication seems to work (do try this out for the other queries as well!), a final assessment is to map descriptions of objects against a knowledge graph of contested terms. Using expert-advice, a group of researchers recently published a list of terms that could be considered as contested in descriptions of cultural heritage. See their paper here: <https://ir.cwi.nl/pub/33129/>. A copy of this graph can be queried at the linked data environment of the Dutch Cultural Heritage Agency: <https://linkeddata.cultureelerfgoed.nl/rce/Words-Matter-Knowledge-Graph>.
 
-In the context of decolonizing collections, it would be useful to get a quick overview of potentially contested terms in a collection, without having to go through all the descriptions manually. That is what our final query aims to do. It retrieves the descriptions from a collection, tries to match these against the Words Matter knowledge graph and returns the potential contested terms for each item, or as a table overview.
+In the context of decolonizing collections, it would be useful to get a quick overview of potentially contested terms in a collection, without having to go through all the descriptions manually. That is what our final query aims to do. It retrieves the descriptions from a collection, tries to match these against the Words Matter knowledge graph and returns the potential contested terms for each object description.
 
 ```{r message=FALSE, warning=FALSE, echo=TRUE}
 
@@ -447,9 +451,26 @@ print(colonial[matched_words != "", ])
 ```
 \
 
-## Conclusion
+We see that some terms match with the Words Matter graph, such as, 'wit' ('white'), and 'Indisch' ('Of Indonesion descent'). This does not mean they are contested per se (for this you should consult the Words Matter graph in detail), but that some caution may be required in using these terms. How to deal with terms like these is up to the GLAM. Nevertheless, this code chunk and the SPARQL query can save GLAMs a lot of time in checking their metadata for potentially contested terms. 
 
-We hope the principle is clear by now. Once you have a linked data version of your collection, it's possible to use the SPARQL queries showed here to connect to different thesauri and other term lists. You can also run these queries outside of R Studio, in a SPARQL editor such as [Yasgui](http://yasgui.org/), or within your own triplestore environment. To accomodate this, the queries are also available separately at [CHAS repository/queries](https://github.com/cultureelerfgoed/CHAS/tree/main/queries).
+## Conclusion [\#](#top)
+
+We hope the principle is clear by now. Once you have a linked data version of your collection, it's possible to use the SPARQL queries showed here to connect to different thesauri and other term lists. You can also run these queries outside of R Studio: in a SPARQL editor such as [Yasgui](http://yasgui.org/), or within your own triplestore environment. To accommodate this, the queries are also available separately at [CHAS repository/queries](https://github.com/cultureelerfgoed/CHAS/tree/main/queries). 
+
+### Future steps
+
+We aim to also provide this pipeline in Python. What we have not yet aimed for is to perform fuzzy matching or reconciliation on terms or creator names in a collection. This can already be done using Openrefine in combination with the [Network of Terms Reconciliation service](https://termennetwerk.netwerkdigitaalerfgoed.nl/reconciliation), but not if you start with linked data. Integrating Network of Terms reconciliation with our R/Python pipeline may also be useful, if you start the process from linked data instead of a csv/XML.
+
+### Disclaimer
+The pipeline provided here is experimental in nature. It means that it is still under development and may not be free from errors or issues. While we have made every effort to ensure its accuracy, there could be unforeseen challenges. Its use is entirely at your discretion and risk.
+
+We encourage you to use this pipeline with caution, especially if you plan to apply it in high-stakes scenarios. It is advisable to thoroughly evaluate its performance and suitability for your specific needs before relying on it extensively.
+
+Your feedback is invaluable to us. If you encounter any issues, have suggestions for improvements, or wish to share your experiences, please do not hesitate to reach out to us. Your input will help refine and enhance this experimental pipeline.
 
 Question and remarks: [thesauri@cultureelerfgoed.nl](thesauri@cultureelerfgoed.nl).
+
+### Licence
+[MIT Licence](https://github.com/cultureelerfgoed/CHAS/blob/main/LICENSE)
+
 

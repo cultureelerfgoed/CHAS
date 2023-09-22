@@ -449,7 +449,7 @@ print(colonial[matched_words != "", ])
 
 ## Conclusion
 
-We hope the principle is clear by now. Once you have a linked data version of your collection, it's possible to use the SPARQL queries showed here to connect to different thesauri and other term lists. You can also run these queries outside of R Studio, in a SPARQL editor such as [Yasgui](http://yasgui.org/), or within your own triplestore environment. To accomodate this, the queries are also available separately at [CHAS repository/queries](https://github.com/cultureelerfgoed/thesauri/tree/main/chas/queries).
+We hope the principle is clear by now. Once you have a linked data version of your collection, it's possible to use the SPARQL queries showed here to connect to different thesauri and other term lists. You can also run these queries outside of R Studio, in a SPARQL editor such as [Yasgui](http://yasgui.org/), or within your own triplestore environment. To accomodate this, the queries are also available separately at [CHAS repository/queries](https://github.com/cultureelerfgoed/CHAS/tree/main/queries).
 
 Question and remarks: [thesauri@cultureelerfgoed.nl](thesauri@cultureelerfgoed.nl).
 

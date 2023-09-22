@@ -362,7 +362,7 @@ display: none;
 Vanderheiden</a><br />
 <strong>Affiliation</strong>: <a href="https://www.cultureelerfgoed.nl">Rijksdienst voor het Cultureel
 Erfgoed</a><br />
-<strong>Date</strong>: 2023-09-22 15:13:01</p>
+<strong>Date</strong>: 2023-09-22 15:46:31</p>
 <style type="text/css">
 body{
 font-size: 13pt;
@@ -459,16 +459,17 @@ connect this to public thesauri to make it more usable for others. In
 the remainder of this explanation we’ll use two sample datasets to
 illustrate the process, provided by the <a href="https://www.cultureelerfgoed.nl/">Dutch Cultural Heritage Agency
 (RCE)</a>.</p>
-<p>If you want to try out the scripts on your own collection data, read
-through the README of the <a href="https://github.com/cultureelerfgoed/CHAS">CHAS repo</a> and use
+<p>If you want to try out the pipeline for your own collection data,
+read through the README of the <a href="https://github.com/cultureelerfgoed/CHAS">CHAS repo</a> and use
 the <a href="https://github.com/cultureelerfgoed/CHAS/blob/main/CHAS_report.Rmd">CHAS_report
-file</a> on your own dataset. Note that some experience with
+file</a> to generate a report on your dataset. All required applications
+are available as open source, but note that some experience with
 programming, SPARQL and/or data science may be required.</p>
 </div>
 <div id="from-cms-to-csv" class="section level2">
 <h2>From CMS to csv <a href="#top">#</a></h2>
 <p>We start the pipeline with an export from a collections management
-system, which is a csv file in our example. Should you have an xml file,
+system, which is a csv file in our example. Should you have an XML file,
 you can convert this to csv using software like Excel or Openrefine, or
 online converters like <a href="https://convertio.co/">convertio</a>.
 The choice to start from a csv is intentional: using a csv forces us to
@@ -761,9 +762,9 @@ data? First we want to see what our terms actually look like. Are they
 already to some degree standardized? We’ll retrieve all the relevant
 terms from our dataset using a SPARQL query; a method that we’ll
 continue to use throughout this demo. The results are limited to 20, but
-you set a higher figure. We see that top-20 terms in our colonial
+you can set a higher figure. We see that top-20 terms in our colonial
 dataset are relatively standardized, but with some exceptions like ‘wol
-(textiel)’.</p>
+(textiel)’ and the compounded ‘Oosters tapijt’.</p>
 <pre class="r"><code>url &lt;- &quot;https://api.linkeddata.cultureelerfgoed.nl/datasets/ruben-schalk/colonial/services/europeana-colonial/sparql&quot;
 sparql_query &lt;- &quot;PREFIX dct: &lt;http://purl.org/dc/terms/&gt;  
 PREFIX schema: &lt;https://schema.org/&gt;

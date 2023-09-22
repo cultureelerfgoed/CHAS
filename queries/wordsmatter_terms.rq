@@ -1,0 +1,15 @@
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+
+
+SELECT DISTINCT ?sub ?obj WHERE {
+
+ SERVICE <https://api.linkeddata.cultureelerfgoed.nl/datasets/rce/Words-Matter-Knowledge-Graph/services/Words-Matter-Knowledge-Graph/sparql>{
+        
+    ?sub <http://www.w3.org/2008/05/skos-xl#literalForm> ?obj .
+            
+            FILTER(LANG(?obj) = 'nl')
+}
+            } 

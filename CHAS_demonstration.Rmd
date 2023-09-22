@@ -125,7 +125,7 @@ The converted and mapped sample dataset has been uploaded to the [Linked Data en
 
 ## Overview of terms [\#](#top)
 
-Now the fun part can begin. How good is the quality of our collection data? First we want to see what our terms actually look like. Are they already to some degree standardized? We'll retrieve all the relevant terms from our dataset using a SPARQL query; a method that we'll continue to use throughout this demo. The results are limited to 20, but you set a higher figure. We see that top-20 terms in our colonial dataset are relatively standardized, but with some exceptions like 'wol (textiel)'.
+Now the fun part can begin. How good is the quality of our collection data? First we want to see what our terms actually look like. Are they already to some degree standardized? We'll retrieve all the relevant terms from our dataset using a SPARQL query; a method that we'll continue to use throughout this demo. The results are limited to 20, but you can set a higher figure. We see that top-20 terms in our colonial dataset are relatively standardized, but with some exceptions like 'wol (textiel)' and the compounded 'Oosters tapijt'.
 
 ```{r message=FALSE, warning=FALSE, echo=TRUE}
 

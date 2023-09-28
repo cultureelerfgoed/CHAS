@@ -49,11 +49,11 @@ setwd("C:\\Users\\Ruben\\Documents\\05. RCE\\Europeana")
 -   [Overview of terms](#overview-of-terms)\
 -   [Connecting to thesauri and reference data](#connecting-to-thesauri-and-reference-data)\
     -   [Cultural Heritage Thesaurus](#cultural-heritage-thesaurus)
-    -   [Colonial History thesaurus](#colonial-history-thesaurus)
+    -   [Colonial History Thesaurus](#colonial-history-thesaurus)
     -   [Geonames](#geonames)
     -   [Cultural Heritage Thesaurus: test 2](#cultural-heritage-thesaurus-test-2)
-    -   [Contested terms: Words Matter Knowledge Graph](#contested-terms-words-matter-knowledge-graph)
--   [More thesauri](#more-thesauri)
+    -   [Contested Terms: Words Matter Knowledge Graph](#contested-terms-words-matter-knowledge-graph)
+-   [More Thesauri](#more-thesauri)
 -   [Conclusion](#conclusion)
     -   [Future steps](#future-steps)
     -   [Disclaimer](#disclaimer)
@@ -457,9 +457,8 @@ setDT(colonial)
 #print(colonial[matched_words != "", ]) # unselected for now because we show the results in markdown instead
 ```
 
-
 | Identifier                                                                       | Description                                                | Matches | Matched Words |
-|----------------------------------------------------------|----------------------------------------|----------|---------------|
+|----------------------------|------------------|-------------|-------------|
 | <https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_131257> | West-Indisch huis                                          | TRUE    | Indisch       |
 | <https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_131258> | West-Indisch huis                                          | TRUE    | Indisch       |
 | <https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_131260> | West-Indisch huis                                          | TRUE    | Indisch       |
@@ -470,20 +469,19 @@ setDT(colonial)
 | <https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_53533>  | Emilia van Nassau-Beverweerd (1635-1688), met een bediende | TRUE    | bediende      |
 | <https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_58790>  | Wit huis bij maanlicht St. Alban de Montbel                | TRUE    | Wit           |
 
-
 \
 We see that some terms match with the Words Matter graph, such as, 'wit' ('white'), and 'bediende' ('servant'). This does not mean they are contested per se (for this you should consult the Words Matter graph in detail), but that some caution may be required in using these terms. How to deal with terms like these is eventually up to yourself. Nevertheless, this code chunk and the SPARQL query can save a lot of time in checking their metadata for potentially contested terms.
 
-## More thesauri [\#](#top) {#more-thesauri}
+## More Thesauri [\#](#top) {#more-thesauri}
 
 There are more thesauri available to which you can connect your linked data collection. The principle is the same as above: find the endpoint URL, and (if needed) adapt the SPARQL query to find matched terms between your collection and the thesaurus.
 
-Below is an overview of thesauri with their SPARQL endpoints. You can also find these at the [Termennetwerk website](https://termennetwerk.netwerkdigitaalerfgoed.nl/reconciliation), but be sure to then only copy the part of the URL after 'reconcile/'.
+Below is an overview of thesauri with their SPARQL endpoints. You can also find these at the [Termennetwerk website](https://termennetwerk.netwerkdigitaalerfgoed.nl/reconciliation), but be sure to then only copy the part of the URL after 'reconcile/'.\
 
 *SPARQL endpoints for thesauri (in Dutch):*
 
 | Thesaurus                                     | Provider           | Endpoint                                                                                                |
-|-----------------------------------|------------------|-------------------|
+|-----------------------------------|------------------|----------|
 | Adamlink: straten in Amsterdam                | Adamlink           | [Link](https://druid.datalegend.net/AdamNet/Geography/sparql%23streets)                                 |
 | Archeologisch Basisregister                   | RCE                | [Link](https://data.cultureelerfgoed.nl/PoolParty/sparql/term/id/abr)                                   |
 | Art & Architecture Thesaurus                  | Getty              | [Link](http://vocab.getty.edu/aat/sparql)                                                               |

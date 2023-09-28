@@ -362,7 +362,7 @@ display: none;
 Vanderheiden</a><br />
 <strong>Affiliation</strong>: <a href="https://www.cultureelerfgoed.nl">Rijksdienst voor het Cultureel
 Erfgoed</a><br />
-<strong>Date</strong>: 2023-09-28 13:49:30</p>
+<strong>Date</strong>: 2023-09-28 14:27:43</p>
 <style type="text/css">
 body{
 font-size: 13pt;
@@ -396,14 +396,14 @@ thesauri and reference data</a><br />
 <li><a href="#cultural-heritage-thesaurus">Cultural Heritage
 Thesaurus</a></li>
 <li><a href="#colonial-history-thesaurus">Colonial History
-thesaurus</a></li>
+Thesaurus</a></li>
 <li><a href="#geonames">Geonames</a></li>
 <li><a href="#cultural-heritage-thesaurus-test-2">Cultural Heritage
 Thesaurus: test 2</a></li>
 <li><a href="#contested-terms-words-matter-knowledge-graph">Contested
-terms: Words Matter Knowledge Graph</a></li>
+Terms: Words Matter Knowledge Graph</a></li>
 </ul></li>
-<li><a href="#more-thesauri">More thesauri</a></li>
+<li><a href="#more-thesauri">More Thesauri</a></li>
 <li><a href="#conclusion">Conclusion</a>
 <ul>
 <li><a href="#future-steps">Future steps</a></li>
@@ -1085,10 +1085,10 @@ Agency: <a href="https://linkeddata.cultureelerfgoed.nl/rce/Words-Matter-Knowled
 <p>In the context of decolonizing collections, it would be useful to get
 a quick overview of potentially contested terms in a collection, without
 having to go through all the descriptions manually. That is what our
-final query aims to do. It retrieves the descriptions from the colonial
-collection, tries to match these against the Words Matter knowledge
-graph, and returns the potential contested terms for each object
-description.</p>
+final query aims to do. It retrieves the descriptions from the art
+collection sample, tries to match these against the Words Matter
+knowledge graph, and returns the potential contested terms for each
+object description.</p>
 <p>This code is more comprehensive, but if you know your way around R
 (or a colleague does), you can simply copy and paste the code below, and
 again adapt the <code>url</code> variable to your own dataset.</p>
@@ -1177,10 +1177,10 @@ setDT(colonial)
 #print(colonial[matched_words != &quot;&quot;, ]) # unselected for now because we show the results in markdown instead</code></pre>
 <table>
 <colgroup>
-<col width="47%" />
-<col width="32%" />
-<col width="8%" />
-<col width="12%" />
+<col width="38%" />
+<col width="25%" />
+<col width="18%" />
+<col width="18%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1258,7 +1258,7 @@ time in checking their metadata for potentially contested terms.</p>
 </div>
 </div>
 <div id="more-thesauri" class="section level2">
-<h2>More thesauri <a href="#top">#</a></h2>
+<h2>More Thesauri <a href="#top">#</a></h2>
 <p>There are more thesauri available to which you can connect your
 linked data collection. The principle is the same as above: find the
 endpoint URL, and (if needed) adapt the SPARQL query to find matched
@@ -1266,13 +1266,14 @@ terms between your collection and the thesaurus.</p>
 <p>Below is an overview of thesauri with their SPARQL endpoints. You can
 also find these at the <a href="https://termennetwerk.netwerkdigitaalerfgoed.nl/reconciliation">Termennetwerk
 website</a>, but be sure to then only copy the part of the URL after
-‘reconcile/’.</p>
+‘reconcile/’.<br />
+</p>
 <p><em>SPARQL endpoints for thesauri (in Dutch):</em></p>
 <table>
 <colgroup>
-<col width="48%" />
-<col width="25%" />
-<col width="26%" />
+<col width="55%" />
+<col width="28%" />
+<col width="15%" />
 </colgroup>
 <thead>
 <tr class="header">

@@ -362,7 +362,7 @@ display: none;
 Vanderheiden</a><br />
 <strong>Affiliation</strong>: <a href="https://www.cultureelerfgoed.nl">Rijksdienst voor het Cultureel
 Erfgoed</a><br />
-<strong>Date</strong>: 2023-09-22 15:46:31</p>
+<strong>Date</strong>: 2023-09-28 13:49:30</p>
 <style type="text/css">
 body{
 font-size: 13pt;
@@ -403,6 +403,7 @@ Thesaurus: test 2</a></li>
 <li><a href="#contested-terms-words-matter-knowledge-graph">Contested
 terms: Words Matter Knowledge Graph</a></li>
 </ul></li>
+<li><a href="#more-thesauri">More thesauri</a></li>
 <li><a href="#conclusion">Conclusion</a>
 <ul>
 <li><a href="#future-steps">Future steps</a></li>
@@ -412,27 +413,27 @@ terms: Words Matter Knowledge Graph</a></li>
 <div id="background" class="section level2">
 <h2>Background</h2>
 <p>Many museums, libraries, archives and other cultural heritage
-institutions are currently working on digitally disclosing their
-collections. In The Netherlands, publishing these data in the <a href="https://netwerkdigitaalerfgoed.nl/activiteiten/linked-data-2/">linked
+institutions are working on digitally disclosing their collections. In
+The Netherlands, publishing these data in the <a href="https://netwerkdigitaalerfgoed.nl/activiteiten/linked-data-2/">linked
 data format</a> is the format of choice . By using linked data,
-collections can be shared in an interoperable manner. But what is more
-important, when using linked data to its fullest connections can be made
-with other data, live on the web. In this way, paintings from a specific
-artist can be connected to another painting by the same artists in
-another museum, even when the first museum is unaware of its existence.
-For users this is great: building applications on top of linked data
-collections allows them to discover related objects across institutions
-across the world.</p>
+collections can be shared in an inter-operable manner. What is more
+important, when using linked data connections can be made with other
+data, live on the web. In this way, paintings from a specific artist can
+be connected to another painting by the same artists in another museum,
+even when the first museum is unaware of its existence. For users this
+is great: building applications on top of linked data collections allows
+them to discover related objects across institutions across the
+world.</p>
 <p>Great as this sounds, publishing linked data and using its fullest
-potential comes with challenges. First, converting data from a
-collections management system to linked data is often not yet possible
-from within these applications. Second, and most importantly, linked
-data only becomes truly linked if the metadata uses URI’s from publicly
-available thesauri or other term lists. For example, if museum A only
-denotes Van Gogh as <code>Gogh, Vincent van</code>, and museum B only
-uses <code>Vincent van Gogh</code>, no connection can be made between
-related objects. However, if both museums also provide a URI (more or
-less a URL) from a thesauri to describe Van Gogh - for instance <a href="https://data.rkd.nl/artists/32439" class="uri">https://data.rkd.nl/artists/32439</a> - then we can use this
+potential comes with challenges. First, most collections management
+systems don’t yet publish linked data. Second, and most importantly,
+linked data only becomes truly linked if the metadata uses URI’s from
+publicly available thesauri or other term lists. For example, if museum
+A only denotes Van Gogh as <code>Gogh, Vincent van</code>, and museum B
+only uses <code>Vincent van Gogh</code>, no connection can be made
+between related objects. However, if both museums also provide a URI
+(more or less a URL) from a thesauri to describe Van Gogh - for instance
+<a href="https://data.rkd.nl/artists/32439" class="uri">https://data.rkd.nl/artists/32439</a> - then we can use this
 URI to ‘travel’ between objects of the same artist (and all related
 information) when the collection is published as linked data. The same
 goes for other key variables, such as materials, genres, categories,
@@ -447,49 +448,52 @@ industry standard, GLAMs benefit from tools, tips and tricks to help
 them get started. This is what we aim to do with the pipeline presented
 here. We have called it the Cultural Heritage ASsessor (or CHAS). CHAS
 presents a combination of scripts, templates and SPARQL queries that
-help GLAMs to:<br />
+help to:<br />
 </p>
 <ul>
 <li>convert records to linked data;</li>
-<li>assess to what degree these records can be enriched with certain
-thesauri or other term list, without harmonization efforts.</li>
+<li>assess to what degree these records can be enriched with thesauri or
+other term list, <em>without</em> first harmonizing the data.</li>
 </ul>
-<p>Together, these steps assist GLAMs to publish linked data, and
-connect this to public thesauri to make it more usable for others. In
-the remainder of this explanation we’ll use two sample datasets to
-illustrate the process, provided by the <a href="https://www.cultureelerfgoed.nl/">Dutch Cultural Heritage Agency
+<p>Together, these steps assist GLAMs to publish linked data, and assess
+how easily their data can (or cannot be) enriched with URI’s from public
+thesauri. In the remainder of this explanation we’ll use two sample
+datasets to illustrate the process, provided by the <a href="https://www.cultureelerfgoed.nl/">Dutch Cultural Heritage Agency
 (RCE)</a>.</p>
-<p>If you want to try out the pipeline for your own collection data,
-read through the README of the <a href="https://github.com/cultureelerfgoed/CHAS">CHAS repo</a> and use
+<p>If you want to try out the pipeline for your own collection, consult
+the README of the <a href="https://github.com/cultureelerfgoed/CHAS">CHAS repo</a> and use
 the <a href="https://github.com/cultureelerfgoed/CHAS/blob/main/CHAS_report.Rmd">CHAS_report
 file</a> to generate a report on your dataset. All required applications
-are available as open source, but note that some experience with
-programming, SPARQL and/or data science may be required.</p>
+are available as open source (apart from Excel, but there are
+alternatives…). Note that some experience with programming, SPARQL
+and/or data science may be required.</p>
 </div>
 <div id="from-cms-to-csv" class="section level2">
 <h2>From CMS to csv <a href="#top">#</a></h2>
-<p>We start the pipeline with an export from a collections management
-system, which is a csv file in our example. Should you have an XML file,
-you can convert this to csv using software like Excel or Openrefine, or
-online converters like <a href="https://convertio.co/">convertio</a>.
-The choice to start from a csv is intentional: using a csv forces us to
-keep the datamodel as ‘flat’ as possible, which helps to maintain an
-easy overview of the data. This suits our purpose of assessing
-collection data. When ‘officially’ publishing collections as linked data
-it is likely that the datamodel becomes more layered to keep as much
-context and content as possible.</p>
-<p>The export sample csv contains several hundreds objects with a
-colonial connection from the <a href="https://www.collectienederland.nl/vc/rce-kunstcollectie/">RCE Art
-Collection</a>. In Excel or Openrefine we first select only the columns
-we want to keep. Many fields are not required for our exercise and only
-make the process more cumbersome. For example, our sample dataset
-originally has hundreds of (mostly empty) columns. We only keep those
-that have information that can be mapped to thesauri: material, subject,
-creator, technique and location. We delete the unwanted columns, rename
-the others to something we can understand, and save the edited csv. You
-can download the edited sample csv from the <a href="https://github.com/cultureelerfgoed/thesauri/tree/main/chas">CHAS
-repository</a>. The first rows now look like this (without the column
-‘description’):</p>
+<p>We start with an export from a collections management system, which
+is a csv file in our example. Should you have an XML file, you can
+convert this to csv using software like Excel or Openrefine, or online
+converters like <a href="https://convertio.co/">convertio</a>. The
+choice to start with a csv is intentional: it forces us to keep the
+datamodel as ‘flat’ as possible, which helps to maintain an easy
+overview of the data. This suits our purpose of assessing collection
+data. When ‘officially’ publishing collections as linked data it is
+likely that the datamodel becomes more layered to keep as much context
+as possible.</p>
+<p>The export csv contains several hundreds objects with a colonial
+connection from the <a href="https://www.collectienederland.nl/vc/rce-kunstcollectie/">RCE Art
+Collection</a>.</p>
+<p>In Excel or <a href="https://openrefine.org/">Openrefine</a> we first
+select only the columns we want to keep. Many fields are not required
+for our exercise and only make the process more cumbersome. For example,
+our dataset originally has hundreds of (mostly empty) columns. We only
+keep those that have information that can be mapped to thesauri:
+material, subject, creator, technique and location. We delete the
+unwanted columns, rename the others to something we can understand, and
+save the edited csv. You can download the edited sample csv from the <a href="https://github.com/cultureelerfgoed/CHAS/tree/main/datasets">CHAS
+repository</a>. We have kept an identifier columns to allow merging of
+edits with the original records. The first rows now look like this
+(without the lengthy column ‘description’):</p>
 <div class="table-wrapper" markdown="block">
 <table style="width:100%;">
 <colgroup>
@@ -626,31 +630,27 @@ repository</a>. The first rows now look like this (without the column
 </tbody>
 </table>
 </div>
-<p><br />
-</p>
-<p>We have kept some identifier columns to allow merging of edits with
-the original records.</p>
 </div>
 <div id="from-csv-to-linked-data" class="section level2">
 <h2>From csv to linked data <a href="#top">#</a></h2>
-<p>Different applications are available to convert the edited csv to
-linked data. It can be done using Python libraries, Openrefine (with RDF
+<p>Different options are available to convert the edited csv to linked
+data. It can be done using Python libraries, Openrefine (with RDF
 extension), the <a href="https://ldwizard.netwerkdigitaalerfgoed.nl/">LD
 Wizard</a>, or <a href="https://github.com/CLARIAH/COW">COW: CSV on the
-web converter</a>. Because we have relatively modest demands for our
-data, we’ll use LD Wizard. It’s very simple: upload the csv, select
-which vocabularies you want to use for the predicates (columns), edit
-your preferences (such as the base URI), and simply click ‘Next’ to
-convert to linked data. If you require more advanced data manipulation,
-e.g. adding additional relations, string manipulations, etc., then you
-can download and edit the COW-metadata file, and run the conversion
-again through either using COW or LD Wizard. A wiki how to use COW to
-it’s fullest can be found at the <a href="https://github.com/CLARIAH/COW/wiki">COW Github repo</a>.</p>
+web converter</a>.</p>
+<p>Because we have modest requirements, we’ll use LD Wizard. It’s very
+simple: upload the csv, select which vocabularies you want to use for
+the predicates (columns), edit your preferences (such as the base URI),
+and simply click ‘Next’ to convert to linked data. If you require more
+advanced data manipulation, e.g. adding additional relations, string
+manipulations, etc., then you can download and edit the COW-metadata
+file, and run the conversion again through either using COW or LD
+Wizard. A wiki how to use COW can be found at the <a href="https://github.com/CLARIAH/COW/wiki">COW Github repo</a>.</p>
 <p>To keep the data simple, we try to map all variables to related
 properties in Dublin Core or Dublin Core Terms, except for
 <code>object_name</code> and <code>technique</code>, for which we use
 <code>schema:artform</code>. All this can be changed easily according to
-preferences. Every object is defined as an instance of
+your preferences. Every object is defined as an instance of
 <code>edm:ProvidedCHO</code>. A colonial object now looks like this when
 expressed in linked data format (.nt):</p>
 <div class="table-wrapper" markdown="block">
@@ -750,9 +750,10 @@ expressed in linked data format (.nt):</p>
 The converted and mapped sample dataset has been uploaded to the <a href="https://linkeddata.cultureelerfgoed.nl/">Linked Data environment
 of the Dutch Cultural Heritage Agency</a>. This allows to add a SPARQL
 service that we can use to connect the colonial dataset to thesauri and
-other reference datasets (when available in linked data). If you want to
-repeat this exercise yourself,there are user-friendly open-source
-alternatives available such as <a href="https://graphdb.ontotext.com/">GraphDB</a> (desktop version), or
+other reference datasets as long as it can be accessed online,
+preferably using a SPARQL endpoint.</p>
+<p>If you don’t have a triplestore at hand (which is quite likely),
+there are user-friendly open-source alternatives available such as <a href="https://graphdb.ontotext.com/">GraphDB</a> desktop version, or
 free online triplestores such as <a href="https://triplydb.com/">TriplyDB</a>.</p>
 </div>
 <div id="overview-of-terms" class="section level2">
@@ -811,7 +812,7 @@ print(df)</code></pre>
 </div>
 <div id="connecting-to-thesauri-and-reference-data" class="section level2">
 <h2>Connecting to thesauri and reference data <a href="#top">#</a></h2>
-<p>Can we improve the usability of the collection by adding URI’s of
+<p>Can we improve the usability of the collection by adding URI’s from
 thesauri? Let’s find out.</p>
 <div id="cultural-heritage-thesaurus" class="section level3">
 <h3>Cultural Heritage Thesaurus <a href="#top">#</a></h3>
@@ -819,9 +820,9 @@ thesauri? Let’s find out.</p>
 <code>schema:artform</code> fields to labels in the <a href="https://thesaurus.cultureelerfgoed.nl/">Cultural Heritage
 Thesaurus (CHT)</a>. Many Dutch GLAMs use this thesaurus already, so
 adding some of these URI’s helps to connect our data to theirs. The code
-below shows a SPARQL query that fetches these keywords from the colonial
-dataset, and checks whether these occur (in exactly the same spelling)
-in the SKOS <code>prefLabel</code>, <code>hiddenLabel</code>, or
+below shows a SPARQL query that fetches keywords from the colonial
+dataset and checks whether these occur (in exactly the same spelling) in
+the SKOS <code>prefLabel</code>, <code>hiddenLabel</code>, or
 <code>altlabel</code> of CHT concepts.</p>
 <p>The same principle can be repeated for other thesauri, by simply
 adapting the URL behind <code>SERVICE</code> to the corresponding SPARQL
@@ -861,7 +862,7 @@ print(df)</code></pre>
 <p><br />
 We see that from the selected keyword fields (180 in total), 122 have an
 exact match with a concept in the thesaurus. Not a bad score, but also
-one that can be improved by some more data harmonization.</p>
+one that can be improved by data harmonization.</p>
 <p>Instead of a count of matches, we can also add the retrieved CHT
 concepts with their URI’s to the linked data. One way to do so would be
 to again find matches through SPARQL, use the <code>CONSTRUCT</code>
@@ -899,8 +900,8 @@ been:<br />
 </p>
 <table>
 <colgroup>
-<col width="23%" />
-<col width="44%" />
+<col width="25%" />
+<col width="43%" />
 <col width="31%" />
 </colgroup>
 <thead>
@@ -922,8 +923,8 @@ been:<br />
 Thesaurus can be added:</p>
 <table>
 <colgroup>
-<col width="23%" />
-<col width="44%" />
+<col width="25%" />
+<col width="43%" />
 <col width="31%" />
 </colgroup>
 <thead>
@@ -1033,10 +1034,11 @@ print(df)</code></pre>
 <a href="https://linkeddata.cultureelerfgoed.nl/ruben-schalk/rce-art-sample">a
 sample of the art collection kept by the Dutch Cultural Heritage
 Agency</a>. The nice thing about the code chunks is that we can just
-copy a query from above. We only need to adapt the url so that it calls
-the SPARQL endpoint of the second dataset. Because the LOD conversion is
-done in the same manner, the predicates are the same as the colonial
-dataset. Let’s test the terms from this collection against the CHT:</p>
+copy a query from above. We only need to adapt the <code>url</code>
+variable so that it calls the SPARQL endpoint of this dataset. Because
+the LOD conversion is done in the same manner, the predicates are the
+same as in the colonial dataset. Let’s test the terms from this
+collection against the CHT:</p>
 <pre class="r"><code>url &lt;- &quot;https://api.linkeddata.cultureelerfgoed.nl/datasets/ruben-schalk/rce-art-sample/services/rce-art-sample/sparql&quot;
 sparql_query &lt;- &quot;PREFIX dct: &lt;http://purl.org/dc/terms/&gt;  
 PREFIX schema: &lt;https://schema.org/&gt;
@@ -1073,20 +1075,23 @@ directly against the CHT.</p>
 </div>
 <div id="contested-terms-words-matter-knowledge-graph" class="section level3">
 <h3>Contested Terms: Words Matter Knowledge Graph <a href="#top">#</a></h3>
-<p>Now that the replication seems to work (do try this out for the other
-queries as well!), a final assessment is to map descriptions of objects
-against a knowledge graph of contested terms. Using expert-advice, a
-group of researchers recently published a list of terms that could be
-considered as contested in descriptions of cultural heritage. See their
-paper here: <a href="https://ir.cwi.nl/pub/33129/" class="uri">https://ir.cwi.nl/pub/33129/</a>. A copy of this graph can
+<p>Now that the replication seems to work, a final assessment is to map
+descriptions of objects against a knowledge graph of contested terms.
+Using expert-advice, a group of researchers recently published a list of
+terms that could be considered as contested in descriptions of cultural
+heritage. See their paper here: <a href="https://ir.cwi.nl/pub/33129/" class="uri">https://ir.cwi.nl/pub/33129/</a>. A copy of this graph can
 be queried at the linked data environment of the Dutch Cultural Heritage
 Agency: <a href="https://linkeddata.cultureelerfgoed.nl/rce/Words-Matter-Knowledge-Graph" class="uri">https://linkeddata.cultureelerfgoed.nl/rce/Words-Matter-Knowledge-Graph</a>.</p>
 <p>In the context of decolonizing collections, it would be useful to get
 a quick overview of potentially contested terms in a collection, without
 having to go through all the descriptions manually. That is what our
-final query aims to do. It retrieves the descriptions from a collection,
-tries to match these against the Words Matter knowledge graph and
-returns the potential contested terms for each object description.</p>
+final query aims to do. It retrieves the descriptions from the colonial
+collection, tries to match these against the Words Matter knowledge
+graph, and returns the potential contested terms for each object
+description.</p>
+<p>This code is more comprehensive, but if you know your way around R
+(or a colleague does), you can simply copy and paste the code below, and
+again adapt the <code>url</code> variable to your own dataset.</p>
 <pre class="r"><code>### import descriptions as text from collection ###
 
 url &lt;- &quot;https://api.linkeddata.cultureelerfgoed.nl/datasets/ruben-schalk/rce-art-sample/services/rce-art-sample/sparql&quot;
@@ -1168,56 +1173,286 @@ matched_words &lt;- results[[2]]
 colonial$matches &lt;- matches
 colonial$matched_words &lt;- matched_words
 setDT(colonial)
-print(colonial[matched_words != &quot;&quot;, ])</code></pre>
-<pre><code>##                                                                        identifier
-## 1: https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_131257
-## 2: https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_131258
-## 3: https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_131260
-## 4: https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_131264
-## 5: https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_133248
-## 6: https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_133250
-## 7: https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_133251
-## 8:  https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_53533
-## 9:  https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_58790
-##                                                   description matches
-## 1:                                          West-Indisch huis    TRUE
-## 2:                                          West-Indisch huis    TRUE
-## 3:                                          West-Indisch huis    TRUE
-## 4:                                          West-Indisch huis    TRUE
-## 5:                                                    Batavia    TRUE
-## 6:                                                    Batavia    TRUE
-## 7:                                                    Batavia    TRUE
-## 8: Emilia van Nassau-Beverweerd (1635-1688), met een bediende    TRUE
-## 9:                Wit huis bij maanlicht St. Alban de Montbel    TRUE
-##    matched_words
-## 1:       Indisch
-## 2:       Indisch
-## 3:       Indisch
-## 4:       Indisch
-## 5:       Batavia
-## 6:       Batavia
-## 7:       Batavia
-## 8:      bediende
-## 9:           Wit</code></pre>
+
+#print(colonial[matched_words != &quot;&quot;, ]) # unselected for now because we show the results in markdown instead</code></pre>
+<table>
+<colgroup>
+<col width="47%" />
+<col width="32%" />
+<col width="8%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Identifier</th>
+<th>Description</th>
+<th>Matches</th>
+<th>Matched Words</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_131257" class="uri">https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_131257</a></td>
+<td>West-Indisch huis</td>
+<td>TRUE</td>
+<td>Indisch</td>
+</tr>
+<tr class="even">
+<td><a href="https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_131258" class="uri">https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_131258</a></td>
+<td>West-Indisch huis</td>
+<td>TRUE</td>
+<td>Indisch</td>
+</tr>
+<tr class="odd">
+<td><a href="https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_131260" class="uri">https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_131260</a></td>
+<td>West-Indisch huis</td>
+<td>TRUE</td>
+<td>Indisch</td>
+</tr>
+<tr class="even">
+<td><a href="https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_131264" class="uri">https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_131264</a></td>
+<td>West-Indisch huis</td>
+<td>TRUE</td>
+<td>Indisch</td>
+</tr>
+<tr class="odd">
+<td><a href="https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_133248" class="uri">https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_133248</a></td>
+<td>Batavia</td>
+<td>TRUE</td>
+<td>Batavia</td>
+</tr>
+<tr class="even">
+<td><a href="https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_133250" class="uri">https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_133250</a></td>
+<td>Batavia</td>
+<td>TRUE</td>
+<td>Batavia</td>
+</tr>
+<tr class="odd">
+<td><a href="https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_133251" class="uri">https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_133251</a></td>
+<td>Batavia</td>
+<td>TRUE</td>
+<td>Batavia</td>
+</tr>
+<tr class="even">
+<td><a href="https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_53533" class="uri">https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_53533</a></td>
+<td>Emilia van Nassau-Beverweerd (1635-1688), met een bediende</td>
+<td>TRUE</td>
+<td>bediende</td>
+</tr>
+<tr class="odd">
+<td><a href="https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_58790" class="uri">https://linkeddata.cultureelerfgoed.nl/cho-kennis/rce-art-sample/id/rce_58790</a></td>
+<td>Wit huis bij maanlicht St. Alban de Montbel</td>
+<td>TRUE</td>
+<td>Wit</td>
+</tr>
+</tbody>
+</table>
 <p><br />
-</p>
-<p>We see that some terms match with the Words Matter graph, such as,
-‘wit’ (‘white’), and ‘Indisch’ (‘Of Indonesion descent’). This does not
-mean they are contested per se (for this you should consult the Words
-Matter graph in detail), but that some caution may be required in using
-these terms. How to deal with terms like these is up to the GLAM.
-Nevertheless, this code chunk and the SPARQL query can save GLAMs a lot
-of time in checking their metadata for potentially contested terms.</p>
+We see that some terms match with the Words Matter graph, such as, ‘wit’
+(‘white’), and ‘bediende’ (‘servant’). This does not mean they are
+contested per se (for this you should consult the Words Matter graph in
+detail), but that some caution may be required in using these terms. How
+to deal with terms like these is eventually up to yourself.
+Nevertheless, this code chunk and the SPARQL query can save a lot of
+time in checking their metadata for potentially contested terms.</p>
 </div>
+</div>
+<div id="more-thesauri" class="section level2">
+<h2>More thesauri <a href="#top">#</a></h2>
+<p>There are more thesauri available to which you can connect your
+linked data collection. The principle is the same as above: find the
+endpoint URL, and (if needed) adapt the SPARQL query to find matched
+terms between your collection and the thesaurus.</p>
+<p>Below is an overview of thesauri with their SPARQL endpoints. You can
+also find these at the <a href="https://termennetwerk.netwerkdigitaalerfgoed.nl/reconciliation">Termennetwerk
+website</a>, but be sure to then only copy the part of the URL after
+‘reconcile/’.</p>
+<p><em>SPARQL endpoints for thesauri (in Dutch):</em></p>
+<table>
+<colgroup>
+<col width="48%" />
+<col width="25%" />
+<col width="26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Thesaurus</th>
+<th>Provider</th>
+<th>Endpoint</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Adamlink: straten in Amsterdam</td>
+<td>Adamlink</td>
+<td><a href="https://druid.datalegend.net/AdamNet/Geography/sparql%23streets">Link</a></td>
+</tr>
+<tr class="even">
+<td>Archeologisch Basisregister</td>
+<td>RCE</td>
+<td><a href="https://data.cultureelerfgoed.nl/PoolParty/sparql/term/id/abr">Link</a></td>
+</tr>
+<tr class="odd">
+<td>Art &amp; Architecture Thesaurus</td>
+<td>Getty</td>
+<td><a href="http://vocab.getty.edu/aat/sparql">Link</a></td>
+</tr>
+<tr class="even">
+<td>Brabantse gebouwen</td>
+<td>Erfgoed Brabant</td>
+<td><a href="https://data.brabantcloud.nl/gebouwen/query/">Link</a></td>
+</tr>
+<tr class="odd">
+<td>Brinkman trefwoordenthesaurus</td>
+<td>KB</td>
+<td><a href="http://data.bibliotheken.nl/thes/brinkman/sparql">Link</a></td>
+</tr>
+<tr class="even">
+<td>Cultuurhistorische Thesaurus</td>
+<td>RCE</td>
+<td><a href="https://data.cultureelerfgoed.nl/PoolParty/sparql/term/id/cht">Link</a></td>
+</tr>
+<tr class="odd">
+<td>EuroVoc</td>
+<td>European Union</td>
+<td><a href="http://publications.europa.eu/webapi/rdf/sparql%23eurovoc">Link</a></td>
+</tr>
+<tr class="even">
+<td>GeoNames (NL, BE, GER)</td>
+<td>Geonames</td>
+<td><a href="https://demo.netwerkdigitaalerfgoed.nl/geonames">Link</a></td>
+</tr>
+<tr class="odd">
+<td>Goudse straten</td>
+<td>Gouda Time Machine</td>
+<td><a href="https://www.goudatijdmachine.nl/id/straten%23streets">Link</a></td>
+</tr>
+<tr class="even">
+<td>GTAA: classificatie</td>
+<td>Beeld &amp; Geluid</td>
+<td><a href="https://data.beeldengeluid.nl/id/datadownload/0027">Link</a></td>
+</tr>
+<tr class="odd">
+<td>GTAA: genres</td>
+<td>Beeld &amp; Geluid</td>
+<td><a href="https://data.beeldengeluid.nl/id/datadownload/0028">Link</a></td>
+</tr>
+<tr class="even">
+<td>GTAA: geografische namen</td>
+<td>Beeld &amp; Geluid</td>
+<td><a href="https://data.beeldengeluid.nl/id/datadownload/0029">Link</a></td>
+</tr>
+<tr class="odd">
+<td>GTAA: namen</td>
+<td>Beeld &amp; Geluid</td>
+<td><a href="https://data.beeldengeluid.nl/id/datadownload/0030">Link</a></td>
+</tr>
+<tr class="even">
+<td>GTAA: onderwerpen</td>
+<td>Beeld &amp; Geluid</td>
+<td><a href="https://data.beeldengeluid.nl/id/datadownload/0031">Link</a></td>
+</tr>
+<tr class="odd">
+<td>GTAA: onderwerpen beeld-geluid</td>
+<td>Beeld &amp; Geluid</td>
+<td><a href="https://data.beeldengeluid.nl/id/datadownload/0032">Link</a></td>
+</tr>
+<tr class="even">
+<td>GTAA: persoonsnamen</td>
+<td>Beeld &amp; Geluid</td>
+<td><a href="https://data.beeldengeluid.nl/id/datadownload/0026">Link</a></td>
+</tr>
+<tr class="odd">
+<td>Homosaurus</td>
+<td>IHLIA</td>
+<td><a href="https://data.ihlia.nl/PoolParty/sparql/homosaurus">Link</a></td>
+</tr>
+<tr class="even">
+<td>Iconclass</td>
+<td>Henri van de Waal</td>
+<td><a href="https://iconclass.org/sparql">Link</a></td>
+</tr>
+<tr class="odd">
+<td>Indisch Erfgoed Thesaurus</td>
+<td>IHC</td>
+<td><a href="https://digitaalerfgoed.poolparty.biz/PoolParty/sparql/ied">Link</a></td>
+</tr>
+<tr class="even">
+<td>Koloniaal Verleden</td>
+<td>RCE</td>
+<td><a href="https://data.cultureelerfgoed.nl/PoolParty/sparql/koloniaalverleden">Link</a></td>
+</tr>
+<tr class="odd">
+<td>Muziek: genres en stijlen</td>
+<td>Muziekweb</td>
+<td><a href="https://data.muziekweb.nl/MuziekwebOrganization/Muziekweb/sparql/Muziekweb%23mw-genresstijlen">Link</a></td>
+</tr>
+<tr class="even">
+<td>Muziek: personen en groepen</td>
+<td>Muziekweb</td>
+<td><a href="https://data.muziekweb.nl/MuziekwebOrganization/Muziekweb/sparql/Muziekweb%23mw-personengroepen">Link</a></td>
+</tr>
+<tr class="odd">
+<td>Muziekschatten: onderwerpen</td>
+<td>SOM</td>
+<td><a href="https://data.muziekschatten.nl/sparql/%23onderwerpen">Link</a></td>
+</tr>
+<tr class="even">
+<td>Muziekschatten: personen</td>
+<td>SOM</td>
+<td><a href="https://data.muziekschatten.nl/sparql/%23personen">Link</a></td>
+</tr>
+<tr class="odd">
+<td>Nederlandse Thesaurus van Auteursnamen</td>
+<td>KB</td>
+<td><a href="http://data.bibliotheken.nl/thesp/sparql">Link</a></td>
+</tr>
+<tr class="even">
+<td>RKDartists</td>
+<td>RKD</td>
+<td><a href="https://data.netwerkdigitaalerfgoed.nl/rkd/rkdartists/sparql">Link</a></td>
+</tr>
+<tr class="odd">
+<td>STCN: drukkers</td>
+<td>KB</td>
+<td><a href="http://data.bibliotheken.nl/thes/drukkers/sparql">Link</a></td>
+</tr>
+<tr class="even">
+<td>Thesaurus Nationaal Museum van Wereldculturen</td>
+<td>NMVW</td>
+<td><a href="https://data.netwerkdigitaalerfgoed.nl/NMVW/thesaurus/sparql">Link</a></td>
+</tr>
+<tr class="odd">
+<td>Uitvoeringsmedium</td>
+<td>Podiumkunst.net</td>
+<td><a href="https://data.muziekschatten.nl/sparql/%23uitvoeringsmedium">Link</a></td>
+</tr>
+<tr class="even">
+<td>Wikidata</td>
+<td>Wikidata</td>
+<td><a href="https://query.wikidata.org/bigdata/namespace/categories/sparql">Link</a></td>
+</tr>
+<tr class="odd">
+<td>WO2-biografieën</td>
+<td>NIOD</td>
+<td><a href="https://data.niod.nl/PoolParty/sparql/WO2_biografieen">Link</a></td>
+</tr>
+<tr class="even">
+<td>WO2-thesaurus</td>
+<td>NIOD</td>
+<td><a href="https://data.niod.nl/PoolParty/sparql/WO2_Thesaurus">Link</a></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="conclusion" class="section level2">
 <h2>Conclusion <a href="#top">#</a></h2>
-<p>We hope the principle is clear by now. Once you have a linked data
-version of your collection, it’s possible to use the SPARQL queries
-showed here to connect to different thesauri and other term lists. You
-can also run these queries outside of R Studio: in a SPARQL editor such
-as <a href="http://yasgui.org/">Yasgui</a>, or within your own
-triplestore environment. To accommodate this, the queries are also
+<p>We hope the principle is clear. Once you have a linked data version
+of your collection, it’s possible to use the SPARQL queries showed here
+to asses your metadata by connecting to different thesauri and term
+lists. You can also run these queries outside of R Studio: in a SPARQL
+editor such as <a href="http://yasgui.org/">Yasgui</a>, or within your
+own triplestore environment. To accommodate this, the queries are also
 available separately at <a href="https://github.com/cultureelerfgoed/CHAS/tree/main/queries">CHAS
 repository/queries</a>.</p>
 <div id="future-steps" class="section level3">
@@ -1226,26 +1461,22 @@ repository/queries</a>.</p>
 aimed for is to perform fuzzy matching or reconciliation on terms or
 creator names in a collection. This can already be done using Openrefine
 in combination with the <a href="https://termennetwerk.netwerkdigitaalerfgoed.nl/reconciliation">Network
-of Terms Reconciliation service</a>, but not if you start with linked
-data. Integrating Network of Terms reconciliation with our R/Python
-pipeline may also be useful, if you start the process from linked data
-instead of a csv/XML.</p>
+of Terms Reconciliation service</a>. However, integrating Network of
+Terms reconciliation with our R/Python pipeline may be useful if you
+start the process from linked data instead of a csv/XML.</p>
 </div>
 <div id="disclaimer" class="section level3">
 <h3>Disclaimer</h3>
 <p>The pipeline provided here is experimental in nature. It means that
 it is still under development and may not be free from errors or issues.
 While we have made every effort to ensure its accuracy, there could be
-unforeseen challenges. Its use is entirely at your discretion and
-risk.</p>
-<p>We encourage you to use this pipeline with caution, especially if you
-plan to apply it in high-stakes scenarios. It is advisable to thoroughly
-evaluate its performance and suitability for your specific needs before
-relying on it extensively.</p>
-<p>Your feedback is invaluable to us. If you encounter any issues, have
+unforeseen results. Its use is entirely at your discretion and risk. It
+is advisable to thoroughly evaluate its performance and suitability for
+your specific needs before relying on it extensively.</p>
+<p>Your feedback is important to us. If you encounter any issues, have
 suggestions for improvements, or wish to share your experiences, please
 do not hesitate to reach out to us. Your input will help refine and
-enhance this experimental pipeline.</p>
+enhance this pipeline.</p>
 <p>Question and remarks: <a href="thesauri@cultureelerfgoed.nl">thesauri@cultureelerfgoed.nl</a>.</p>
 </div>
 <div id="licence" class="section level3">

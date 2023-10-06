@@ -1,4 +1,4 @@
-# Europeana
+# CHAS
 Sample datasets, queries and templates of the Cultural Heritage ASessor pipeline (CHAS), created by the Dutch Cultural Heritaga Agency, to be presented at the Europeana Tech Conference 2023. 
 
 CHAS: 

@@ -1,0 +1,26 @@
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX schema: <https://schema.org/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+CONSTRUCT  {
+
+?sub dct:subject ?uri_cht . # generate new triples in which the subject is bound to the retrieved URI's below
+
+}
+WHERE {
+ 
+  ?sub dct:subject ?obj . # select term to add URI's to (in this case from CHT)
+  
+  BIND(strlang(?obj, "nl") AS ?obj_nl) # bind term with language tag (required for CHT)
+  
+SERVICE <https://api.linkeddata.cultureelerfgoed.nl/datasets/rce/Cultuurhistorische-Thesaurus-CHT/services/Cultuurhistorische-Thesaurus-CHT/sparql> { # federated query to CHT
+   
+    GRAPH <https://data.cultureelerfgoed.nl/term/id/cht/thesaurus> { # select relevant graph
+  
+         ?uri_cht skos:prefLabel|skos:altLabel|skos:hiddenLabel ?obj_nl . # find matching URI's for term .
+    
+    }}
+} LIMIT 10

@@ -1,5 +1,6 @@
 ---
 title: "Cultural Heritage ASessor (CHAS)"
+output: pdf_document
 ---
 
 ::: {style="text-align: center; margin-bottom: 20px;"}
